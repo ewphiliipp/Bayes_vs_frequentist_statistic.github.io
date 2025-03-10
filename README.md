@@ -30,28 +30,28 @@ P(H | D) = (P(D | H) * P(H) / P(D)
 - **Frequentist:** Calculates the mean
 - **Bayesian:** Starts with an assumption (Prior) about the probability and updates it with new flips.
 
-**Code:**
+Coin_toss.ipynb
 
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 
-# Simulating a coin flip with a "true" probability
+**Simulating a coin flip with a "true" probability**
 true_p = 0.5
 n_trials = 100
 np.random.seed(42)  # For reproducibility
 coin_flips = np.random.binomial(1, true_p, n_trials)
 
-# Frequentist estimate
+**Frequentist estimate**
 freq_estimate = np.sum(coin_flips) / n_trials
 
-# Bayesian estimate with Beta(1,1) prior
+**Bayesian estimate with Beta(1,1) prior**
 alpha_prior= 1
 beta_prior = 1
 alpha_post = alpha_prior + np.sum(coin_flips)
 beta_post = beta_prior + n_trials - np.sum(coin_flips)
 
-# Plot posterior distribution
+**Plot posterior distribution and mean**
 x = np.linspace(0, 1, 100)
 plt.figure(figsize=(10,5))
 plt.axvline(freq_estimate, color='red', linestyle='--', label=f"Frequentist: p = {freq_estimate:.2f}")
@@ -61,6 +61,8 @@ plt.ylabel("Density")
 plt.title("Frequentist vs Bayesian Coin Toss Estimation")
 plt.legend()
 plt.show()
+
+## Visualization
 
 ![image](https://github.com/user-attachments/assets/d050e88d-02c0-4fda-bc43-8c93b2e5d3c0)
 
@@ -72,21 +74,21 @@ plt.show()
 - **Frequentist:** Only considers the test sensitivity (98%).
 - **Bayesian:** Takes into account that only 0.5% of athletes dope and combines this with the test result.
 
-**Code: `scripts/doping_test.py`**
+**Doping.ipynb**
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Given probabilities
+**Given probabilities**
 P_doping = 0.005  # Only 0.5% of athletes dope
 P_pos_given_doping = 0.98  # Test correctly detects doping 98% of the time
 P_pos_given_clean = 0.05  # 5% false positives
 
-# Bayesian calculation
+**Bayesian calculation**
 P_clean = 1 - P_doping
 P_pos = P_pos_given_doping * P_doping + P_pos_given_clean * P_clean
 P_doping_given_pos = (P_pos_given_doping * P_doping) / P_pos
 
-# Visualization
+**Plot posterior distribution and mean**
 labels = ["Frequentist: Test Sensitivity", "Bayesian: True Doping Probability"]
 values = [P_pos_given_doping, P_doping_given_pos]
 
@@ -99,5 +101,7 @@ plt.show()
 
 print(f"Frequentist Estimate: {P_pos_given_doping:.2%} (Test Sensitivity)")
 print(f"Bayesian Estimate: {P_doping_given_pos:.2%} (Actual Doping Probability after a Positive Test)")
+
+## Visualization
 
 ![image](https://github.com/user-attachments/assets/a712bef9-77ea-4c77-a6f9-57b5b5cd9865)
